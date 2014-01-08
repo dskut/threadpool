@@ -5,9 +5,9 @@
 
 #include <boost/atomic.hpp>
 
-#include "runnable.h"
+#include "task.h"
 
-const size_t defaultTaskQueueCapacity = 10*1024*1024;
+const size_t defaultTaskQueueCapacity = 1024*1024;
 
 class Worker {
 public:
@@ -25,7 +25,7 @@ public:
 
 private:
     void popTaskAndRun() {
-        IRunnable* task;
+        ITask* task;
         while (tasks_->pop(task)) {
             task->run();
             delete task;
@@ -62,7 +62,11 @@ public:
         threads_.clear();
     }
 
-    void add(IRunnable* task) {
+    /**
+     * ThreadPool object is responsible for deleting the allocated task object.
+     * The caller should not do it himself again.
+     */
+    void add(ITask* task) {
         while (!tasks_.push(task)) {
         }
     }

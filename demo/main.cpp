@@ -4,7 +4,7 @@
 
 boost::atomic_int globalSum(0);
 
-class SimpleTask: public IRunnable {
+class SimpleTask: public ITask {
 public:
     SimpleTask(size_t num)
         : num_(num)
