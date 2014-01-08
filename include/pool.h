@@ -5,7 +5,9 @@
 
 #include <boost/atomic.hpp>
 
-#include "task_queue.h"
+#include "runnable.h"
+
+const size_t defaultTaskQueueCapacity = 10*1024*1024;
 
 class Worker {
 public:
@@ -36,6 +38,10 @@ private:
 
 class ThreadPool {
 public:
+    ThreadPool(size_t queueCapacity = defaultTaskQueueCapacity)
+        : tasks_(queueCapacity)
+    {}
+
     ~ThreadPool() {
         stop();
     }

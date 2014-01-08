@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/shared_ptr.hpp>
+#include <boost/lockfree/queue.hpp>
 
 class IRunnable {
 public:
@@ -8,5 +9,4 @@ public:
     virtual void run() = 0;
 };
 
-// FIXME: use intrusive_ptr
-//typedef boost::shared_ptr<IRunnable> RunnablePtr;
+typedef boost::lockfree::queue<IRunnable*> TaskQueue;
