@@ -12,7 +12,7 @@ public:
     {}
 
     void operator()() {
-        while (!	*isPoolStopped_) {
+        while (!*isPoolStopped_) {
             popTaskAndRun();
         }
         popTaskAndRun();
