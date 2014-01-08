@@ -3,6 +3,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/lockfree/queue.hpp>
 
+namespace threadpool {
+
 class ITask {
 public:
     virtual ~ITask() {}
@@ -10,3 +12,5 @@ public:
 };
 
 typedef boost::lockfree::queue<ITask*> TaskQueue;
+
+} // namespace threadpool

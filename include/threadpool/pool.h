@@ -5,8 +5,10 @@
 
 #include <boost/atomic.hpp>
 
-#include "task.h"
-#include "worker.h"
+#include <threadpool/task.h>
+#include <threadpool/worker.h>
+
+namespace threadpool {
 
 const size_t defaultTaskQueueCapacity = 1024*1024;
 
@@ -50,3 +52,5 @@ private:
     TaskQueue tasks_;
     boost::atomic<bool> isStopped_;
 };
+
+} // namespace threadpool

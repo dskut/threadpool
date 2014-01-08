@@ -1,6 +1,8 @@
 #pragma once
 
-#include "task.h"
+#include <threadpool/task.h>
+
+namespace threadpool {
 
 class Worker {
 public:
@@ -29,3 +31,4 @@ private:
     boost::atomic<bool>* const isPoolStopped_;
 };
 
+} // namespace threadpool

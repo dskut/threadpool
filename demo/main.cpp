@@ -2,6 +2,8 @@
 #include <iostream>
 #include <threadpool/pool.h>
 
+using namespace threadpool;
+
 boost::atomic_int globalSum(0);
 
 class SimpleTask: public ITask {
