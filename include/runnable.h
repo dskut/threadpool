@@ -4,8 +4,9 @@
 
 class IRunnable {
 public:
+    virtual ~IRunnable() {}
     virtual void run() = 0;
 };
 
 // FIXME: use intrusive_ptr
-typedef boost::shared_ptr<IRunnable> RunnablePtr;
+//typedef boost::shared_ptr<IRunnable> RunnablePtr;

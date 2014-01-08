@@ -2,8 +2,11 @@
 
 #include <queue>
 #include <mutex>
+#include <boost/lockfree/queue.hpp>
 #include "runnable.h"
 
+
+/*
 class TaskQueue {
 public:
     void push(RunnablePtr task) {
@@ -21,4 +24,12 @@ public:
 private:
     std::mutex mutex_;
     std::queue<RunnablePtr> tasks_;
+};
+*/
+
+class TaskQueue: public boost::lockfree::queue<IRunnable*> {
+public:
+    TaskQueue()
+        : boost::lockfree::queue<IRunnable*>(1024*1024)
+    {}
 };
