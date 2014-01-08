@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "pool.h"
+#include <threadpool/pool.h>
 
 boost::atomic_int globalSum(0);
 
