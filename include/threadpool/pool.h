@@ -2,36 +2,27 @@
 
 #include <vector>
 #include <thread>
-
-#include <boost/atomic.hpp>
-
 #include <threadpool/task.h>
 #include <threadpool/worker.h>
+#include <threadpool/queue.h>
 
 namespace threadpool {
 
-const size_t defaultTaskQueueCapacity = 1024*1024;
-
 class ThreadPool {
 public:
-    ThreadPool(size_t queueCapacity = defaultTaskQueueCapacity)
-        : tasks_(queueCapacity)
-    {}
-
     ~ThreadPool() {
         stop();
     }
 
     void start(size_t threadsCount) {
-        isStopped_ = false;
         threads_.clear();
         for (size_t i = 0; i < threadsCount; ++i) {
-            threads_.push_back(std::thread(Worker(&tasks_, &isStopped_)));
+            threads_.push_back(std::thread(Worker(&tasks_)));
         }
     }
 
     void stop() {
-        isStopped_ = true;
+        tasks_.stop();
         for (std::thread& thread: threads_) {
             thread.join();
         }
@@ -43,14 +34,12 @@ public:
      * The caller should not do it himself again.
      */
     void add(ITask* task) {
-        while (!tasks_.push(task)) {
-        }
+        tasks_.push(task);
     }
 
 private:
     std::vector<std::thread> threads_;
     TaskQueue tasks_;
-    boost::atomic<bool> isStopped_;
 };
 
 } // namespace threadpool

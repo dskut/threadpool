@@ -1,10 +1,11 @@
 
 #include <iostream>
+#include <atomic>
 #include <threadpool/pool.h>
 
 using namespace threadpool;
 
-boost::atomic_int globalSum(0);
+std::atomic_int globalSum(0);
 
 class SimpleTask: public ITask {
 public:
@@ -28,6 +29,7 @@ public:
 
     void operator()() {
         for (size_t i = 0; i < tasksCount_; ++i) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
             threadPool_->add(new SimpleTask(i));
         }
     }

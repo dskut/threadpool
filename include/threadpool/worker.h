@@ -1,34 +1,31 @@
 #pragma once
 
 #include <threadpool/task.h>
+#include <threadpool/queue.h>
 
 namespace threadpool {
 
 class Worker {
 public:
-    Worker(TaskQueue* const tasks, boost::atomic<bool>* const isPoolStopped)
+    Worker(TaskQueue* const tasks)
         : tasks_(tasks)
-        , isPoolStopped_(isPoolStopped)
     {}
 
     void operator()() {
-        while (!*isPoolStopped_) {
-            popTaskAndRun();
+        while (true) {
+            ITask* task;
+            task = tasks_->pop();
+            if (task) {
+                task->run();
+                delete task;
+            } else {
+                break;
+            }
         }
-        popTaskAndRun();
     }
 
 private:
-    void popTaskAndRun() {
-        ITask* task;
-        while (tasks_->pop(task)) {
-            task->run();
-            delete task;
-        }
-    }
-
     TaskQueue* const tasks_;
-    boost::atomic<bool>* const isPoolStopped_;
 };
 
 } // namespace threadpool
