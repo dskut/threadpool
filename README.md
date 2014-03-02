@@ -7,5 +7,4 @@ It provides ThreadPool class for running M tasks on N system threads (M can be m
 without any system delay or contention.
 See http://en.wikipedia.org/wiki/Thread_pool_pattern for more detailed description of this pattern.
 
-It uses boost::lockfree::queue for tasks queue (therefore needs boost >= 1.54). 
-Also uses some C++11 features like std::thread, auto and range-based loop.
+It uses C++11 features like std::thread, atomic, auto, range-based loop, etc.
